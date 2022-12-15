@@ -30,12 +30,11 @@ create_cluster() {
 
   if [ $RESPONSE_CODE -eq 0 ]; then
     sleep 5m
-    for i in {1..6..1}
+    for i in {1..10..1}
       do
-        if [ ! -s $KUBE_DIR/config ]; then
-          sleep 30s
-          get_kubeconfig
-        fi
+        echo "$i sleeping now for 30s"
+        sleep 30s
+        get_kubeconfig
     done
   else
     echo "Failed to launch cluster. please try again"
@@ -47,6 +46,12 @@ get_kubeconfig() {
     mkdir -p $KUBE_DIR
   fi
 
+  if [ -s "$KUBE_DIR/config" ]; then
+    echo "Kubeconfig is present"
+    ls -al $KUBE_DIR/config
+    return
+  fi
+
   KUBECONFIG=$(curl --location --request POST "https://$ENT_SERVER/api/application/cluster/getKubeConfig" \
   --header "Content-Type: application/json" \
   --data-raw "{
@@ -54,8 +59,10 @@ get_kubeconfig() {
     \"cluster_alias\" : \"$ALIAS\"
   }" | jq -r '.kubeconfig')
 
+  echo $KUBECONFIG
+
   if [ "$KUBECONFIG" != "null" ]; then
-    echo "$KUBECONFIG" >> "$KUBE_DIR/config"
+    echo "$KUBECONFIG" > "$KUBE_DIR/config"
   fi
 }
 
@@ -73,6 +80,7 @@ main() {
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
         \"alias\": \"$ALIAS\"
       }"
+      rm -f "$KUBE_DIR/config"
       ;;
     delete)
       curl --location --request POST "https://$ENT_SERVER/api/application/client/deleteLaunchedCluster" \
@@ -81,6 +89,7 @@ main() {
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
         \"alias\": \"$ALIAS\"
       }"
+      rm -f "$KUBE_DIR/config"
       ;;
     *)
       echo "Please try with valid parameter - stop or delete"
@@ -103,5 +112,5 @@ if [ ! -d "$ROOST_DIR" ]; then
    mkdir -p $ROOST_DIR
 fi
 
-main $* > $ROOST_DIR/roost.log 2>&1
+main $* >> $ROOST_DIR/roost.log 2>&1
 echo "Logs are at $ROOST_DIR/roost.log"
