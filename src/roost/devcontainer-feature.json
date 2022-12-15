@@ -52,7 +52,7 @@
         },
         "disk_size": {
             "type": "string",
-            "default": "30",
+            "default": "50",
             "description": "Disk Size"
         },
         "instance_type": {
