@@ -55,8 +55,8 @@ get_kubeconfig() {
     \"cluster_alias\" : \"$ALIAS\"
   }" | jq -r '.kubeconfig')
 
-  echo $KUBECONFIG
   if [ "$KUBECONFIG" != "null" ]; then
+    echo "Kubconfig retrieved successfully"
     echo "$KUBECONFIG" >> "$KUBE_DIR/config"
   fi
 }
@@ -75,7 +75,7 @@ main() {
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
         \"alias\": \"$ALIAS\"
       }"
-      rm -f "$KUBE_DIR/config"
+      sudo rm -f "$KUBE_DIR/config"
       ;;
     delete)
       curl --location --request POST "https://$ENT_SERVER/api/application/client/deleteLaunchedCluster" \
@@ -84,7 +84,7 @@ main() {
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
         \"alias\": \"$ALIAS\"
       }"
-      rm -f "$KUBE_DIR/config"
+      sudo rm -f "$KUBE_DIR/config"
       ;;
     *)
       echo "Please try with valid parameter - stop or delete"
