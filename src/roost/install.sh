@@ -55,7 +55,7 @@ get_kubeconfig() {
   }" | jq -r '.kubeconfig')
 
   if [ "$KUBECONFIG" != "null" ]; then
-    echo "$KUBECONFIG" >> ~/.kube/config
+    echo "$KUBECONFIG" >> "$KUBE_DIR/config"
   fi
 }
 
