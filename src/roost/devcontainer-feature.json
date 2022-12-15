@@ -1,0 +1,74 @@
+{
+    "name": "Roost Cluster Creation",
+    "id": "roost",
+    "version": "1.0.0",
+    "description": "A feature to create kubernetes cluster using Roost.",
+    "options": {
+        "roost_auth_token": {
+            "type": "string",
+            "description": "Roost Authorization Token"
+        },
+        "email": {
+            "type": "string",
+            "description": "User Email"
+        },
+        "alias": {
+            "type": "string",
+            "description": "Alias Name"
+        },
+        "preemptible": {
+            "type": "string",
+            "enum": [
+                "true",
+                "false"
+            ],
+            "default": "false",
+            "description": "Preemptible Type"
+        },
+        "k8s_version": {
+            "type": "string",
+            "default": "1.22.2",
+            "description": "Kubernetes Version"
+        },
+        "cluster_expires_in_hours": {
+            "type": "string",
+            "default": "1",
+            "description": "Cluster Expiration Time ( in Hrs )"
+        },
+        "num_workers": {
+            "type": "string",
+            "default": "1",
+            "description": "Number Of Worker Nodes"
+        },
+        "namespace": {
+            "type": "string",
+            "default": "roost-codesapace",
+            "description": "Default Namepace"
+        },
+        "region": {
+            "type": "string",
+            "default": "ap-northeast-1",
+            "description": "Aws Region"
+        },
+        "disk_size": {
+            "type": "string",
+            "default": "30",
+            "description": "Disk Size"
+        },
+        "instance_type": {
+            "type": "string",
+            "default": "t3.small",
+            "description": "Instance Type"
+        },
+        "ami": {
+            "type": "string",
+            "default": "ubuntu focal 20.04",
+            "description": "Ami"
+        },
+        "ent_server": {
+            "type": "string",
+            "default": "app.roost.ai",
+            "description": "Enterprise Server IP"
+        }
+    }
+}
