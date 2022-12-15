@@ -47,12 +47,16 @@ get_kubeconfig() {
     mkdir -p $KUBE_DIR
   fi
 
-  curl --location --request POST "https://$ENT_SERVER/api/application/cluster/getKubeConfig" \
+  KUBECONFIG=$(curl --location --request POST "https://$ENT_SERVER/api/application/cluster/getKubeConfig" \
   --header "Content-Type: application/json" \
   --data-raw "{
     \"app_user_id\" : \"$ROOST_AUTH_TOKEN\",
     \"cluster_alias\" : \"$ALIAS\"
-  }" | jq -r '.kubeconfig' >> "$KUBE_DIR/config"
+  }" | jq -r '.kubeconfig')
+
+  if [ "$KUBECONFIG" != "null" ]; then
+    echo "$KUBECONFIG" >> ~/.kube/config
+  fi
 }
 
 write_stop_cmd() {
