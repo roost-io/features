@@ -6,7 +6,7 @@ A feature to launch kubernetes cluster from Codespace using Roost.
 
 ```json
 "features": {
-    "ghcr.io/ZB-io/roost-codespace/roost:1.0.0": {}
+    "ghcr.io/roost-io/features/roost:1.0.0": {}
 }
 ```
 
@@ -31,4 +31,4 @@ A feature to launch kubernetes cluster from Codespace using Roost.
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/ZB-io/roost-codespace/blob/main/src/roost/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/roost-io/features/blob/main/src/roost/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
