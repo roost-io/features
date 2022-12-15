@@ -57,7 +57,7 @@
         },
         "instance_type": {
             "type": "string",
-            "default": "t3.small",
+            "default": "t3.large",
             "description": "Instance Type"
         },
         "ami": {
