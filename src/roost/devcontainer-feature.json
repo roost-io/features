@@ -52,12 +52,12 @@
         },
         "disk_size": {
             "type": "string",
-            "default": "30",
+            "default": "50",
             "description": "Disk Size"
         },
         "instance_type": {
             "type": "string",
-            "default": "t3.small",
+            "default": "t3.large",
             "description": "Instance Type"
         },
         "ami": {

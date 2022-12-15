@@ -22,8 +22,8 @@ A feature to launch kubernetes cluster from Codespace using Roost.
 | num_workers | Number of worker nodes | string | 1 |
 | namespace | Default namespace | string | roost-codesapace |
 | region | Aws region, to create cluster into | string | ap-northeast-1 |
-| disk_size | Disk size in GB | string | 30 |
-| instance_type | Instance type | string | t3.small |
+| disk_size | Disk size in GB | string | 50 |
+| instance_type | Instance type | string | t3.large |
 | ami | AMI | string | ubuntu focal 20.04 |
 | ent_server | Enterprise server IP | string | app.roost.ai |
 
