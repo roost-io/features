@@ -10,6 +10,26 @@ pre_checks() {
   fi
 }
 
+install_kubectl() {
+  which kubectl
+  if [ $? -ne 0 ]; then
+    sudo apt-get update -y
+    sudo apt-get install -y apt-transport-https ca-certificates curl
+    sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    sudo apt-get update -y
+    curl -L "https://dl.k8s.io/release/v${K8S_VERSION}/bin/linux/amd64/kubectl" -o /var/tmp/kubectl && chmod +x /var/tmp/kubectl && sudo mv /var/tmp/kubectl /usr/local/bin/kubectl
+  fi
+
+  kubectl version | grep "${K8S_VERSION}"
+  if [ $? -ne 0 ]; then
+    echo "kubectl installation failed!"
+  else
+    echo "kubectl installed successfully."
+  fi
+
+}
+
 create_cluster() {
   RESPONSE_CODE=$(curl --location --request POST "https://$ENT_SERVER/api/application/client/launchCluster" \
   --header "Content-Type: application/json" \
@@ -99,6 +119,7 @@ chmod +x /usr/local/bin/roost
 
 main() {
   pre_checks
+  install_kubectl
   create_cluster
   write_stop_cmd
 }
