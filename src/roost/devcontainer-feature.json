@@ -65,10 +65,10 @@
             "default": "ubuntu focal 20.04",
             "description": "Ami"
         },
-        "ent_server": {
+        "roost_server": {
             "type": "string",
             "default": "app.roost.ai",
-            "description": "Enterprise Server IP"
+            "description": "Roost Enterprise Server IP"
         }
     }
 }

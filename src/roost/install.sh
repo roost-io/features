@@ -4,6 +4,7 @@ LOG_FILE="$ROOST_DIR/cluster.log"
 
 pre_checks() {
   ROOT_DISK_SIZE="${DISK_SIZE}GB"
+  ENT_SERVER="$ROOST_SERVER"
   KUBE_DIR="/home/vscode/.kube"
   if [ -z $ALIAS ]; then
     ALIAS=$(date +%s)
@@ -31,7 +32,7 @@ install_kubectl() {
 }
 
 create_cluster() {
-  RESPONSE_CODE=$(curl --location --request POST "https://$ENT_SERVER/api/application/client/launchCluster" \
+  RESPONSE_CODE=$(curl --location --silent --request POST "https://$ENT_SERVER/api/application/client/launchCluster" \
   --header "Content-Type: application/json" \
   --data-raw "{
     \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
@@ -68,7 +69,7 @@ get_kubeconfig() {
     mkdir -p $KUBE_DIR
   fi
 
-  KUBECONFIG=$(curl --location --request POST "https://$ENT_SERVER/api/application/cluster/getKubeConfig" \
+  KUBECONFIG=$(curl --location --silent --request POST "https://$ENT_SERVER/api/application/cluster/getKubeConfig" \
   --header "Content-Type: application/json" \
   --data-raw "{
     \"app_user_id\" : \"$ROOST_AUTH_TOKEN\",
@@ -89,7 +90,7 @@ ACTION=\$*
 main() {
   case \$ACTION in
     stop)
-      curl --location --request POST "https://$ENT_SERVER/api/application/client/stopLaunchedCluster" \
+      curl --location --silent --request POST "https://$ENT_SERVER/api/application/client/stopLaunchedCluster" \
       --header "Content-Type: application/json" \
       --data-raw "{
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
@@ -98,7 +99,7 @@ main() {
       sudo rm -f "$KUBE_DIR/config"
       ;;
     delete)
-      curl --location --request POST "https://$ENT_SERVER/api/application/client/deleteLaunchedCluster" \
+      curl --location --silent --request POST "https://$ENT_SERVER/api/application/client/deleteLaunchedCluster" \
       --header "Content-Type: application/json" \
       --data-raw "{
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",

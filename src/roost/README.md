@@ -25,7 +25,7 @@ A feature to launch kubernetes cluster from Codespace using Roost.
 | disk_size | Disk size in GB | string | 50 |
 | instance_type | Instance type | string | t3.large |
 | ami | AMI | string | ubuntu focal 20.04 |
-| ent_server | Enterprise server IP | string | app.roost.ai |
+| roost_server | Roost Enterprise server IP | string | app.roost.ai |
 
 
 
