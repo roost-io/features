@@ -6,14 +6,17 @@
     "options": {
         "roost_auth_token": {
             "type": "string",
+            "default": "",
             "description": "Roost Authorization Token"
         },
         "email": {
             "type": "string",
+            "default": "",
             "description": "User Email"
         },
         "alias": {
             "type": "string",
+            "default": "",
             "description": "Alias Name"
         },
         "preemptible": {
