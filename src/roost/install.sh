@@ -6,8 +6,17 @@ pre_checks() {
   ROOT_DISK_SIZE="${DISK_SIZE}GB"
   ENT_SERVER="$ROOST_SERVER"
   KUBE_DIR="/home/vscode/.kube"
+
   if [ -z $ALIAS ]; then
     ALIAS=$(date +%s)
+  fi
+  if [ -z $EMAIL ]; then
+    echo "Email field is empty."
+    exit 1
+  fi
+  if [ -z $ROOST_AUTH_TOKEN ]; then
+    echo "ROOST_AUTH_TOKEN field is empty."
+    exit 1
   fi
 }
 
@@ -90,22 +99,28 @@ ACTION=\$*
 main() {
   case \$ACTION in
     stop)
-      curl --location --silent --request POST "https://$ENT_SERVER/api/application/client/stopLaunchedCluster" \
+      RESPONSECODE=\$(curl --location --silent --request POST "https://$ENT_SERVER/api/application/client/stopLaunchedCluster" \
       --header "Content-Type: application/json" \
       --data-raw "{
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
         \"alias\": \"$ALIAS\"
-      }"
-      sudo rm -f "$KUBE_DIR/config"
+      }" | jq -r '.ResponseCode')
+      if [ "\$RESPONSECODE" != "null" -a "\$RESPONSECODE" -eq 0  ]; then
+        echo "Successfully stopped cluster."
+        sudo rm -f "$KUBE_DIR/config"
+      fi
       ;;
     delete)
-      curl --location --silent --request POST "https://$ENT_SERVER/api/application/client/deleteLaunchedCluster" \
+      RESPONSECODE=\$(curl --location --silent --request POST "https://$ENT_SERVER/api/application/client/deleteLaunchedCluster" \
       --header "Content-Type: application/json" \
       --data-raw "{
         \"roost_auth_token\": \"$ROOST_AUTH_TOKEN\",
         \"alias\": \"$ALIAS\"
-      }"
-      sudo rm -f "$KUBE_DIR/config"
+      }" | jq -r '.ResponseCode')
+      if [ "\$RESPONSECODE" != "null" -a "\$RESPONSECODE" -eq 0  ]; then
+        echo "Successfully deleted cluster."
+        sudo rm -f "$KUBE_DIR/config"
+      fi
       ;;
     *)
       echo "Please try with valid parameter - stop or delete"
