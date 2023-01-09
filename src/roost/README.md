@@ -1,6 +1,6 @@
 # Roost Cluster Creation
 
-A feature to launch kubernetes cluster from Codespace using Roost.
+A feature to launch kubernetes cluster (on AWS EC2 Instances) from Codespace using Roost.
 
 ## Example Usage
 
